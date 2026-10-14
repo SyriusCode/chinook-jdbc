@@ -61,19 +61,16 @@ public class AlbumDAOJdbc implements AlbumDAO {
              PreparedStatement sentencia = conexion.prepareStatement(sql)) {
 
             // TODO 1: rellena los tres ? en orden: título, id del artista e id del álbum
-            sentencia.setString(1, "Nuevo Nombre Album");
-            sentencia.setInt(2, 1);
-            sentencia.setInt(3, 4);
+            sentencia.setString(1, album.getTitulo());
+            sentencia.setInt(2, album.getArtista().getId());
+            sentencia.setInt(3, album.getId());
             int filas = sentencia.executeUpdate();
             System.out.println(filas + " fila(s) actualizada(s)");
 
             // TODO 2: ejecuta la sentencia y devuelve true si ha cambiado exactamente 1 fila
             return sentencia.executeUpdate() == 1;
 
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
         }
-        return true;
     }
 
     @Override
@@ -85,13 +82,11 @@ public class AlbumDAOJdbc implements AlbumDAO {
              PreparedStatement sentencia = conexion.prepareStatement(sql)
         ) {
             // TODO 4: rellena el ? con albumId, ejecuta y devuelve true si se ha borrado 1 fila
-            sentencia.setInt(1, 348);
+            sentencia.setInt(1, albumId);
             int filas = sentencia.executeUpdate();
             System.out.println(filas + " fila(s) borrada(s)");
 
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
+            return filas == 1;
         }
-        return true;
     }
 }

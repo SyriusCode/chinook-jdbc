@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class PruebaAlbumDAO {
 
+
     public static void main(String[] args) {
         AlbumDAO albumDAO = new AlbumDAOJdbc();
         Scanner teclado = new Scanner(System.in);
@@ -17,7 +18,7 @@ public class PruebaAlbumDAO {
         try {
             System.out.println("=== C4 · Álbumes de AC/DC (artista 1) ===");
             for (Album album : albumDAO.findByArtista(1)) {
-                System.out.println(album);
+                System.out.println(album.getTitulo());
             }
 
             System.out.println();

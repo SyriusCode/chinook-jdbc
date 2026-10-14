@@ -30,6 +30,7 @@ public class PruebaGeneroDAO {
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
+
         }
     }
 }

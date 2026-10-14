@@ -18,4 +18,6 @@ public interface AlbumDAO {
 
     // D1: borra el álbum con ese id
     boolean delete(int albumId) throws SQLException;
+
+
 }
