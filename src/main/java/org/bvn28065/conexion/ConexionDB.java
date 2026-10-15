@@ -1,5 +1,7 @@
 package org.bvn28065.conexion;
 
+import org.bvn28065.PoolConexiones;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,6 +17,6 @@ public class ConexionDB {
     }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USUARIO, CONTRASENA);
+        return PoolConexiones.getConnection();
     }
 }
