@@ -11,9 +11,11 @@ import org.bvn28065.dao.PistaDAOJdbc;
 import org.bvn28065.modelo.Album;
 import org.bvn28065.modelo.Artista;
 import org.bvn28065.modelo.Genero;
+import org.bvn28065.modelo.Pista;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -100,31 +102,109 @@ public class Main {
 
     private static void contarPistasPorGenero() throws SQLException {
         // TODO opción 2: recorre generoDAO.contarPistas() e imprime "Género: número"
+        Map<String, Integer> generos = generoDAO.contarPistas();
 
+        for (Map.Entry<String, Integer> genero : generos.entrySet()) {
+            System.out.println(genero.getKey() + ": " + genero.getValue() + " pistas.");
+        }
     }
 
     private static void artistasMasVendidos() throws SQLException {
         // TODO opción 4: pide cuántos artistas quiere ver y usa artistaDAO.masVendidos(n)
+        int cantidad = leerEntero("Número de artistas a mostrar. ");
+
+        Map<String, Integer> artistas = artistaDAO.masVendidos(cantidad);
+
+        for (Map.Entry<String, Integer> artista : artistas.entrySet()) {
+            System.out.println(artista.getKey() + ": " + artista.getValue() + " unidades vendidas.");
+        }
     }
 
     private static void albumesDeArtista() throws SQLException {
         // TODO opción 5: pide el id del artista y muestra albumDAO.findByArtista(id)
+        int artistaId = leerEntero("Introduce el ID del artista.");
+
+        List<Album> albums = albumDAO.findByArtista(artistaId);
+
+        if (albums.isEmpty()) {
+            System.out.println("No se encontraron albums de ese artista.");
+        } else  {
+            for (Album album : albums) {
+                System.out.println(album.getTitulo());
+            }
+        }
     }
 
     private static void pistasDeGenero() throws SQLException {
         // TODO opción 6: pide el id del género, muestra cuántas pistas hay y las 20 primeras
+        int generoId = leerEntero("Introduce el ID del género. ");
+
+        List<Pista> pistas = pistaDAO.findByGenero(generoId);
+
+        System.out.println("Número total de  pistas: " + pistas.size());
+
+        int limite = Math.min(20, pistas.size());
+
+        for (int i = 0; i < limite ;  i++) {
+            System.out.println(pistas.get(i));
+        }
+
+        if (pistas.isEmpty()) {
+            System.out.println("No se encontró pistas de este género.");
+        } else if (pistas.size() > 20) {
+            System.out.println("Se muestran solo las 20 primeras pistas.");
+        }
     }
 
     private static void pistasDeAlbum() throws SQLException {
         // TODO opción 7: pide el id del álbum y muestra pistaDAO.findByAlbum(id)
+        int albumId =  leerEntero("Introduce el ID del album. ");
+
+        List<Pista> pistas = pistaDAO.findByAlbum(albumId);
+
+        if  (pistas.isEmpty()) {
+            System.out.println("No se encontró pistas de este album");
+        } else {
+            for (Pista pista : pistas) {
+                System.out.println(pista);
+            }
+        }
     }
 
     private static void cambiarTituloAlbum() throws SQLException {
         // TODO opción 9: pide id del álbum, id de su artista y nuevo título; usa albumDAO.update(...)
+        int albumId = leerEntero("Introduce el ID del album. ");
+        int artistaId = leerEntero("Introduce el Id del artista. ");
+        String nuevoTitulo = leerTexto("Introduce  el nuevo título. ");
+
+        Artista artista =  new Artista();
+        artista.setId(artistaId);
+
+        Album album = new Album();
+        album.SetId(albumId);
+        album.setTitulo(nuevoTitulo);
+        album.setArtista(artista);
+
+        boolean actualizado = albumDAO.update(album);
+
+        if (actualizado) {
+            System.out.println("El album se actualizó correctamente.");
+        } else  {
+            System.out.println("No se pudó modificar.");
+        }
     }
 
     private static void borrarAlbum() throws SQLException {
         // TODO opción 10: pide el id del álbum y usa albumDAO.delete(id); avisa si no existía
+        int albumId = leerEntero("Introduce el ID del album que quiere borrar. ");
+
+        boolean borrado = albumDAO.delete(albumId);
+
+        if (borrado) {
+            System.out.println("Album borrado correctamente.");
+        } else {
+            System.out.println("No existe dicho album.");
+        }
     }
 
     // ---------- Lectura de teclado ----------
