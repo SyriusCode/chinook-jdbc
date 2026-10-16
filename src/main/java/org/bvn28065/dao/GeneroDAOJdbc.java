@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GeneroDAOJdbc extends GeneroDAO {
+public class GeneroDAOJdbc implements GeneroDAO {
 
     @Override
     public List<Genero> findAll() throws SQLException {
