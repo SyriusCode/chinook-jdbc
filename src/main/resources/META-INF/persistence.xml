@@ -5,6 +5,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!-- Aquí irán las entidades, una línea <class> por cada una (a partir del Paso 3) -->
+        <class>org.bvn28065.modelo.Genero</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>
